@@ -18,7 +18,9 @@ int Add(const string &addable){
       if (i<0){
         throw -1;
       }
+      if (i<=1000){
 			total += i;
+      }
 			if (ss.peek() == ',' || ss.peek() == '\n') {
 				ss.ignore();
 			}
