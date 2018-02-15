@@ -7,7 +7,7 @@ using std::string;
 #include <sstream>
 using std::stringstream;
 
-int add(const string &addable){
+int Add(const string &addable){
     vector<int> nums{};
     if(addable.size()==0){
         return 0;
@@ -24,11 +24,34 @@ int add(const string &addable){
 		return total;
 }
 
-TEST_CASE( "add null str [add]" ) {
-    REQUIRE( add("") == 0 );
-    REQUIRE( add("1") == 1);
-    REQUIRE( add("2") == 2);
-    REQUIRE( add("1,2") == 3);
-    REQUIRE( add("1,2,3") == 6);
+TEST_CASE("empty string returns 0") {
+	REQUIRE(Add("") == 0);
+}
 
+TEST_CASE("single number returns value") {
+	REQUIRE(Add("7") == 7);
+}
+
+TEST_CASE("two numbers (comma delimited) returns sum") {
+	REQUIRE(Add("7, 5") == 12);
+}
+
+TEST_CASE("two numbers (newline delimited) returns sum") {
+	REQUIRE(Add("3\n8") == 11);
+}
+
+TEST_CASE("three numbers, whatever delimiter, returns sum") {
+	REQUIRE(Add("4,5,6") == 15);
+	REQUIRE(Add("4\n5\n6") == 15);
+	REQUIRE(Add("4,5\n6") == 15);
+	REQUIRE(Add("4\n5,6") == 15);
+}
+
+TEST_CASE("negative numbers throw") {
+	REQUIRE_THROWS(Add("-5"));
+}
+
+TEST_CASE("numbers > 1000 are ignored") {
+	REQUIRE(Add("10,10000") == 10);
+	REQUIRE(Add("1000,1001") == 1000);
 }
