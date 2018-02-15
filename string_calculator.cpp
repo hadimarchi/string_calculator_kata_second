@@ -14,8 +14,11 @@ int add(const string &addable){
     }
 		unsigned int total = 0;
     stringstream ss(addable);
-		unsigned int i = 0;
+		int i = 0;
 		while (ss >> i) {
+      if (i<0){
+        raise;
+      }
 			total += i;
 			if (ss.peek() == ',' || ss.peek() == '\n') {
 				ss.ignore();
