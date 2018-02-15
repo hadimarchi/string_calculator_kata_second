@@ -6,24 +6,30 @@ using std::vector;
 using std::string;
 #include <sstream>
 using std::stringstream;
+#include <cctype>
+#include <iostream>
 
 int Add(const string &addable){
-    if(addable.size()==0){
-        return 0;
-    }
 		unsigned int total = 0;
     stringstream ss(addable);
 		int i = 0;
+		
+		if(addable.size()==0){
+			return 0;
+		}
+		
 		while (ss >> i) {
-      if (i<0){
+			while (!isdigit(ss.peek()) && ss.peek() != -1) {
+				ss.ignore();
+			}
+			
+			if (i<0){
         throw -1;
       }
       if (i<=1000){
 			total += i;
       }
-			if (ss.peek() == ',' || ss.peek() == '\n') {
-				ss.ignore();
-			}
+			
 		}
 		return total;
 }
@@ -59,3 +65,12 @@ TEST_CASE("numbers > 1000 are ignored") {
 	REQUIRE(Add("10,10000") == 10);
 	REQUIRE(Add("1000,1001") == 1000);
 }
+
+TEST_CASE("custom delimiters") {
+	REQUIRE(Add("//[***]\n1***2***3") == 6);
+}
+
+TEST_CASE("multiple delimiters") {
+	REQUIRE(Add("//[*][%]\n1*2%3") == 6);
+}
+
