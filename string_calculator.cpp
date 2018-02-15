@@ -8,7 +8,6 @@ using std::string;
 using std::stringstream;
 
 int Add(const string &addable){
-    vector<int> nums{};
     if(addable.size()==0){
         return 0;
     }
@@ -17,7 +16,7 @@ int Add(const string &addable){
 		int i = 0;
 		while (ss >> i) {
       if (i<0){
-        raise;
+        throw -1;
       }
 			total += i;
 			if (ss.peek() == ',' || ss.peek() == '\n') {
